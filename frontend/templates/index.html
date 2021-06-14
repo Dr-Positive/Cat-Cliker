@@ -1,0 +1,121 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Clicker</title>
+    <link rel="stylesheet" href="{% static 'css/index.css'%}" type="text/css">
+    <script src="{% static 'js/index.js' %}"></script>
+</head>
+<style> 
+    body {
+        background: paleturquoise;
+
+    }
+    
+    .menu-container {
+        position: absolute;
+        left: 50px;
+    }
+    .menu-container h1{ 
+        position: absolute;       
+        margin-left: 45px;
+        top :140px;
+    }
+    .menu-container a{        
+        position: absolute;
+        margin-left: 45px;
+        top :190px;
+    }
+    .boosts-container h3{                
+        margin-left: 350px;         
+    }   
+    .click_count{
+                
+        margin-left: 200px;
+        color: violet;                
+                     
+    }
+    .paws{
+                
+        margin-right: 350px;
+        width:150px;
+        height:150px;  
+    }
+    
+    .click-container .hand{
+        width:150px;
+        height:150px;
+        position: absolute;
+        top :75px;
+        left: 680px; 
+        display: none;
+        z-index: 999;
+    }
+    </style>
+    <main class="container">
+        <aside class="menu-container">
+            <img  class = "paws" src="{% static 'imgs/Paw.gif' %}"  >
+            <h1>{{ user.username }}</h1>
+            <a href="{% url 'logout' %}">logout</a>
+        </aside>
+        <div class="click-container">
+            <p class="click_count">                
+                Satisfaction: <span id="counter">{{ maincycle.click_count }}</span>
+            </p>
+            <button class="click-holder" onclick="call_click()">
+                
+                <img  class= "hand gifka" id="gif" src="{% static 'imgs/dac.gif' %}"  >  
+                <img class= "cat" id="click-img" src="{% static 'imgs/CAT.png' %}" onclick="gifka()">      
+                          
+            </button>
+
+            <p>
+                Stroking Power: <span id="click_power">{{ maincycle.click_power }}</span>
+            </p>
+            <p>                 
+                Auto carding : +<span id="auto_click_power">{{ maincycle.auto_click_power }}</span>/s
+            </p>            
+            
+        </div>
+        
+        <aside class="boosts-container">            
+            <h3>BOOSTS</h3>
+            <div class="boosts-holder" id="boosts-holder">
+                {% for boost in boosts %}
+                    {% if boost.boost_type == 0 %}
+                        <button class="boost" onclick="buy_boost({{boost.id}})">
+                            <p>lvl: {{boost.level}}</p>
+                            <p>+<span id="boost_power">{{boost.power}}</span></p>
+                            <p><span id="boost_price">{{boost.price}}</span></p>
+                        </button>
+                    {% endif %}
+                    {% if boost.boost_type == 1 %}
+                        <button class="boost auto" onclick="buy_boost({{boost.id}})">
+                            <p>lvl: {{boost.level}}</p>
+                            <p>+<span id="boost_power">{{boost.power}}</span></p>
+                            <p><span id="boost_price">{{boost.price}}</span></p>
+                        </button>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </aside>
+    </main>
+    <script >
+        function click_image() {
+            document.getElementById("gif").style.display = "block";
+            image = document.getElementById('click-img')
+            document.getElementById("click-img").style.cssText = 'transform: scale(0.95);'            
+            setTimeout(function() {
+        image.style.cssText = ''
+    }, 50)
+        setTimeout(function() {
+            document.getElementById("gif").style.display = "none";
+    }, 100)
+    }
+
+    </script>
+</body>
+</html>
